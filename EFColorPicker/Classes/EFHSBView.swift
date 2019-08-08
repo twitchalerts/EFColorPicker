@@ -28,10 +28,16 @@ import UIKit
 
 // The view to edit HSB color components.
 public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
-
-    let EFColorSampleViewHeight: CGFloat = 30.0
-    let EFViewMargin: CGFloat = 20.0
-    let EFColorWheelDimension: CGFloat = 200.0
+    
+    public var EFColorSampleViewHeight: CGFloat = 30.0 {
+        didSet { self.setNeedsUpdateConstraints() }
+    }
+    public var EFViewMargin: CGFloat = 20.0 {
+        didSet { self.setNeedsUpdateConstraints() }
+    }
+    public var EFColorWheelDimension: CGFloat = 200.0 {
+        didSet { self.setNeedsUpdateConstraints() }
+    }
 
     private let colorWheel: EFColorWheelView = EFColorWheelView()
     let brightnessView: EFColorComponentView = EFColorComponentView()
@@ -104,7 +110,7 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
         colorWheel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(colorWheel)
 
-        brightnessView.title = NSLocalizedString("Brightness", comment: "")
+        brightnessView.title = NSLocalizedString("Alpha", comment: "")
         brightnessView.maximumValue = EFHSBColorComponentMaxValue
         brightnessView.format = "%.2f"
         brightnessView.translatesAutoresizingMaskIntoConstraints = false
@@ -230,12 +236,12 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
     private func ef_reloadViewsWithColorComponents(colorComponents: HSB) {
         colorWheel.hue = colorComponents.hue
         colorWheel.saturation = colorComponents.saturation
-        colorWheel.brightness = colorComponents.brightness
+        colorWheel.alpha = colorComponents.alpha
         self.ef_updateSlidersWithColorComponents(colorComponents: colorComponents)
     }
 
     private func ef_updateSlidersWithColorComponents(colorComponents: HSB) {
-        brightnessView.value = colorComponents.brightness
+        brightnessView.value = colorComponents.alpha
     }
 
     @objc private func ef_colorDidChangeValue(sender: EFColorWheelView) {
@@ -246,8 +252,8 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
     }
 
     @objc private func ef_brightnessDidChangeValue(sender: EFColorComponentView) {
-        colorComponents.brightness = sender.value
-        self.colorWheel.brightness = sender.value
+        colorComponents.alpha = sender.value
+        self.colorWheel.alpha = sender.value
         self.delegate?.colorView(self, didChangeColor: self.color)
         self.reloadData()
     }

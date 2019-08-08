@@ -41,9 +41,9 @@ public class EFColorSelectionView: UIView, EFColorView, EFColorViewDelegate {
 
     // The selected color view
     private(set) var selectedIndex: EFSelectedColorView = EFSelectedColorView.RGB
-
-    let rgbColorView: EFRGBView = EFRGBView()
-    let hsbColorView: EFHSBView = EFHSBView()
+    
+    public let rgbColorView: EFRGBView = EFRGBView()
+    public let hsbColorView: EFHSBView = EFHSBView()
 
     weak public var delegate: EFColorViewDelegate?
 
@@ -53,7 +53,7 @@ public class EFColorSelectionView: UIView, EFColorView, EFColorViewDelegate {
         }
     }
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         self.ef_init()
     }
@@ -66,7 +66,7 @@ public class EFColorSelectionView: UIView, EFColorView, EFColorViewDelegate {
     // Makes a color component view (rgb or hsb) visible according to the index.
     // @param index    This index define a view to show.
     // @param animated If YES, the view is being appeared using an animation.
-    func setSelectedIndex(index: EFSelectedColorView, animated: Bool) {
+    public func setSelectedIndex(index: EFSelectedColorView, animated: Bool) {
         self.selectedIndex = index
         self.selectedView()?.color = self.color
         UIView.animate(withDuration: animated ? 0.5 : 0.0) {
